@@ -33,10 +33,10 @@ module "asm_install" {
   module_depends_on = [var.cluster_endpoint]
 
   platform                          = "linux"
-  gcloud_sdk_version                = "293.0.0"
+  gcloud_sdk_version                = var.gcloud_sdk_version
   skip_download                     = var.skip_gcloud_download
-  upgrade                           = false
-  use_tf_google_credentials_env_var = true
+  upgrade                           = true
+  use_tf_google_credentials_env_var = var.use_tf_google_credentials_env_var
   additional_components             = ["kubectl", "kpt", "anthoscli", "alpha"]
 
   create_cmd_entrypoint  = "${path.module}/scripts/install_asm.sh"
@@ -68,11 +68,11 @@ module "gke_hub_registration" {
   version = "~> 1.0"
 
   platform                          = "linux"
-  gcloud_sdk_version                = "293.0.0"
+  gcloud_sdk_version                = var.gcloud_sdk_version
   skip_download                     = var.skip_gcloud_download
-  upgrade                           = false
+  upgrade                           = true
   enabled                           = var.enable_gke_hub_registration
-  use_tf_google_credentials_env_var = true
+  use_tf_google_credentials_env_var = var.use_tf_google_credentials_env_var
   module_depends_on                 = [module.asm_install.wait]
 
   create_cmd_entrypoint  = "${path.module}/scripts/gke_hub_registration.sh"
